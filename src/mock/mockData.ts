@@ -1,10 +1,13 @@
-import { faker } from '@faker-js/faker';
-
-interface IItinerary {
+import { faker } from '@faker-js/faker/locale/ru';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
+export interface IItinerary {
   id: string;
-  loadingDate: Date;
+  loadingDate: string;
   from: string;
+  fromState: string;
   to: string;
+  toState: string;
   distance: number;
   points: number;
   cargo: string;
@@ -15,12 +18,23 @@ interface IItinerary {
   fuelPrice: number;
 }
 
-const getItinerary = () => {
+const districtReplace = (district: string): string => {
+  return district
+    .replace('Республика', 'Рес.')
+    .replace('область', 'обл.')
+    .replace('край', 'кр.')
+    .replace('автономный округ', 'авт. окр.');
+};
+
+const getItinerary = (): IItinerary => {
+  const date = faker.date.past();
   return {
     id: faker.string.uuid(),
-    loadingDate: faker.date.past(),
+    loadingDate: format(date, 'd MMMM yyyy HH:mm', { locale: ru }),
     from: faker.location.city(),
+    fromState: districtReplace(faker.location.state()),
     to: faker.location.city(),
+    toState: districtReplace(faker.location.state()),
     distance: Math.floor(Math.random() * (1500 - 500 + 1)) + 500,
     points: Math.floor(Math.random() * 6) + 1,
     cargo: faker.commerce.productName(),
@@ -32,9 +46,29 @@ const getItinerary = () => {
   };
 };
 
-export const getMockData = (count: number): IItinerary[] => {
-  return '1'
-    .repeat(count)
-    .split('')
-    .map(i => getItinerary);
+const getMockData = (count: number): IItinerary[] => {
+  const itineraryList = [];
+
+  for (let i = 0; i < count; i++) {
+    itineraryList.push(getItinerary());
+  }
+
+  return itineraryList;
+};
+
+/* const fetchMockData = (count: number): Promise<IItinerary[]> => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(getMockData(count)), 2000);
+  });
+}; */
+
+export const fetchMockData = async (count: number) => {
+  try {
+    const data = await new Promise<IItinerary[]>(resolve => {
+      setTimeout(() => resolve(getMockData(count)), 2000);
+    });
+    return data;
+  } catch (err) {
+    console.log('Ошибка при запросе:', err);
+  }
 };

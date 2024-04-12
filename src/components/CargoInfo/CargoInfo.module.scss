@@ -1,0 +1,45 @@
+@mixin font($size) {
+  font-size: $size;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.cargoInfo {
+  width: 480px;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-left: 1px solid #e7e7e7;
+  border-right: 1px solid #e7e7e7;
+
+  &__line {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  &__name {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @include font(18px);
+    color: #404140;
+  }
+
+  &__namber {
+    @include font(18px);
+    color: #818281;
+  }
+
+  &__text {
+    @include font(16px);
+    color: #818281;
+  }
+
+  &__date {
+    @include font(16px);
+    color: #404140;
+  }
+}
