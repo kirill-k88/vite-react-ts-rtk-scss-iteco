@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import styles from './CargoInfo.module.scss';
 
@@ -7,7 +7,7 @@ interface ICargoInfoProps {
   weight: number;
   volume: number;
   act: string;
-  loadingDate: Date;
+  loadingDate: string;
 }
 
 export const CargoInfo: FC<ICargoInfoProps> = ({ cargo, weight, volume, act, loadingDate }) => {

@@ -1,10 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchMockData } from '../mock/mockData';
 
 export const useQueryItineraries = () =>
-  useQuery({
+  useInfiniteQuery({
     queryKey: ['getItinerary'],
-    queryFn: async () => {
-      return await fetchMockData(50);
-    }
+    queryFn: async ({ pageParam = 1 }) => {
+      return await fetchMockData(pageParam);
+    },
+    initialPageParam: 0,
+    getNextPageParam: lastPageData => lastPageData?.nextPage
   });

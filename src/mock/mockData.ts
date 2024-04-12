@@ -56,13 +56,17 @@ const getMockData = (count: number): IItinerary[] => {
   return itineraryList;
 };
 
-export const fetchMockData = async (count: number) => {
+export const fetchMockData = async (page: number) => {
   try {
-    const data = await new Promise<IItinerary[]>(resolve => {
-      setTimeout(() => resolve(getMockData(count)), 2000);
+    const data = await new Promise<IItinerary[]>((resolve, reject) => {
+      setTimeout(() => resolve(getMockData(50)), 2000);
+      /*  setTimeout(() => {
+        reject('Ошибка сервера');
+      }, 2000); */
     });
-    return data;
+    return { data, nextPage: page + 1 };
   } catch (err) {
-    console.log('Ошибка при запросе:', err);
+    console.log(`Ошибка при запросе: ${err}`);
+    throw new Error(`Ошибка при запросе: ${err}`);
   }
 };
