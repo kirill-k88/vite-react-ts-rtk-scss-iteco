@@ -56,12 +56,6 @@ const getMockData = (count: number): IItinerary[] => {
   return itineraryList;
 };
 
-/* const fetchMockData = (count: number): Promise<IItinerary[]> => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(getMockData(count)), 2000);
-  });
-}; */
-
 export const fetchMockData = async (count: number) => {
   try {
     const data = await new Promise<IItinerary[]>(resolve => {
