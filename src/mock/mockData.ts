@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker/locale/ru';
-import { format } from 'date-fns';
+import { format, lastDayOfDecade } from 'date-fns';
 import { ru } from 'date-fns/locale';
 export interface IItinerary {
   id: string;
@@ -26,31 +26,42 @@ const districtReplace = (district: string): string => {
     .replace('автономный округ', 'авт. окр.');
 };
 
-const getItinerary = (): IItinerary => {
+const getItinerary = (
+  from: string | null,
+  to: string | null,
+  loadingDate: string | null,
+  act: string | null
+): IItinerary => {
   const date = faker.date.past();
   return {
     id: faker.string.uuid(),
-    loadingDate: format(date, 'd MMMM yyyy HH:mm', { locale: ru }),
-    from: faker.location.city(),
+    loadingDate: loadingDate || format(date, 'd MMMM yyyy HH:mm', { locale: ru }),
+    from: from || faker.location.city(),
     fromState: districtReplace(faker.location.state()),
-    to: faker.location.city(),
+    to: to || faker.location.city(),
     toState: districtReplace(faker.location.state()),
     distance: Math.floor(Math.random() * (1500 - 500 + 1)) + 500,
     points: Math.floor(Math.random() * 6) + 1,
     cargo: faker.commerce.productName(),
     weight: Math.floor(Math.random() * 4) + 1,
     volume: Math.floor(Math.random() * 4) + 1,
-    act: faker.string.alphanumeric(5),
+    act: act || faker.string.alphanumeric(5),
     price: Math.floor(Math.random() * (15000 - 500 + 1)) + 500,
     fuelPrice: Math.floor(Math.random() * (15000 - 500 + 1)) + 500
   };
 };
 
-const getMockData = (count: number): IItinerary[] => {
+const getMockData = (
+  count: number,
+  from: string | null = null,
+  to: string | null = null,
+  loadingDate: string | null = null,
+  act: string | null = null
+): IItinerary[] => {
   const itineraryList = [];
 
   for (let i = 0; i < count; i++) {
-    itineraryList.push(getItinerary());
+    itineraryList.push(getItinerary(from, to, loadingDate, act));
   }
 
   return itineraryList;
@@ -65,6 +76,24 @@ export const fetchMockData = async (page: number) => {
       }, 2000); */
     });
     return { data, nextPage: page + 1 };
+  } catch (err) {
+    console.log(`Ошибка при запросе: ${err}`);
+    throw new Error(`Ошибка при запросе: ${err}`);
+  }
+};
+
+export const fetchFilteredMockData = async (
+  page: number,
+  from: string | null = null,
+  to: string | null = null,
+  loadingDate: string | null = null,
+  act: string | null = null
+) => {
+  try {
+    const data = await new Promise<IItinerary[]>((resolve, reject) => {
+      setTimeout(() => resolve(getMockData(50, from, to, loadingDate, act)), 2000);
+    });
+    return { data, nextPage: page + Math.floor(Math.random() * 2) };
   } catch (err) {
     console.log(`Ошибка при запросе: ${err}`);
     throw new Error(`Ошибка при запросе: ${err}`);

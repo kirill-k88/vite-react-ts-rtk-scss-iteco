@@ -9,4 +9,9 @@
   background-color: #fff;
   color: #404140;
   border-radius: 16px;
+  transition: margin-left 0.3s;
+
+  &:hover {
+    margin-left: 10px;
+  }
 }
