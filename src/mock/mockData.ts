@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker/locale/ru';
-import { format, lastDayOfDecade } from 'date-fns';
+import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { IFilter } from '../types/types';
 export interface IItinerary {
   id: string;
   loadingDate: string;
@@ -27,10 +28,10 @@ const districtReplace = (district: string): string => {
 };
 
 const getItinerary = (
-  from: string | null,
-  to: string | null,
-  loadingDate: string | null,
-  act: string | null
+  from: string | undefined,
+  to: string | undefined,
+  loadingDate: string | undefined,
+  act: string | undefined
 ): IItinerary => {
   const date = faker.date.past();
   return {
@@ -51,38 +52,32 @@ const getItinerary = (
   };
 };
 
-const getMockData = (
-  count: number,
-  from: string | null = null,
-  to: string | null = null,
-  loadingDate: string | null = null,
-  act: string | null = null
-): IItinerary[] => {
+const getMockData = (count: number, filter: IFilter): IItinerary[] => {
   const itineraryList = [];
 
   for (let i = 0; i < count; i++) {
-    itineraryList.push(getItinerary(from, to, loadingDate, act));
+    itineraryList.push(getItinerary(filter.from, filter.to, filter.loadingDate, filter.act));
   }
 
   return itineraryList;
 };
 
-export const fetchMockData = async (page: number) => {
+export const fetchMockData = async (page: number, filter: IFilter) => {
   try {
     const data = await new Promise<IItinerary[]>((resolve, reject) => {
-      setTimeout(() => resolve(getMockData(50)), 2000);
+      setTimeout(() => resolve(getMockData(filter.act ? 1 : 50, filter)), 2000);
       /*  setTimeout(() => {
         reject('Ошибка сервера');
       }, 2000); */
     });
-    return { data, nextPage: page + 1 };
+    return { data, nextPage: filter.act ? undefined : page + 1 };
   } catch (err) {
     console.log(`Ошибка при запросе: ${err}`);
     throw new Error(`Ошибка при запросе: ${err}`);
   }
 };
 
-export const fetchFilteredMockData = async (
+/* export const fetchFilteredMockData = async (
   page: number,
   from: string | null = null,
   to: string | null = null,
@@ -98,4 +93,4 @@ export const fetchFilteredMockData = async (
     console.log(`Ошибка при запросе: ${err}`);
     throw new Error(`Ошибка при запросе: ${err}`);
   }
-};
+}; */

@@ -10,6 +10,8 @@ export const List: FC = () => {
   const { data, isLoading, isError, isLoadingError, fetchNextPage, hasNextPage, isFetching } =
     useQueryItineraries();
 
+  console.log(data?.pages.length);
+
   return (
     <section className={styles.list}>
       {isLoading && <Preloader />}
@@ -18,7 +20,12 @@ export const List: FC = () => {
       )}
       <Virtuoso
         data={data?.pages.flatMap(page => page?.data ?? []) ?? []}
-        itemContent={(_, item) => <Itinerary key={item?.id} itenirary={item} />}
+        itemContent={(_, item) => (
+          <Itinerary
+            key={item?.id}
+            itenirary={item}
+          />
+        )}
         endReached={() => {
           if (hasNextPage) {
             fetchNextPage();
