@@ -1,17 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export enum viewStyles {
+export enum EViewStyles {
   'list' = 'list',
   'grid' = 'grid'
 }
 
 export interface IviewStyleSlice {
-  style: viewStyles;
+  style: EViewStyles;
 }
 
 const initialState: IviewStyleSlice = {
-  style: viewStyles.list
+  style: EViewStyles.list
 };
 
 export const viewStyleSlice = createSlice({

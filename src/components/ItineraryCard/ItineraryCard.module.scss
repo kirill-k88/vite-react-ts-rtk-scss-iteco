@@ -1,5 +1,12 @@
 .itineraryCard {
-  width: 550px;
-  height: 200px;
-  background-color: red;
+  box-sizing: border-box;
+  width: 547px;
+  min-height: 328px;
+  background-color: #fff;
+  padding: 24px 32px;
+  gap: 12px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  color: #404140;
 }

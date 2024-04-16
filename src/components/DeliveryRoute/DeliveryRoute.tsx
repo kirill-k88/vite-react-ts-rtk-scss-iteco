@@ -1,7 +1,11 @@
 import { type FC } from 'react';
+import { useSelector } from 'react-redux';
 
-import styles from './DeliveryRoute.module.scss';
+import { RootState } from '../../store/store';
+import { EViewStyles } from '../../store/slices/viewStyleSlice';
 
+import listStyles from './DeliveryRouteList.module.scss';
+import gridStyles from './DeliveryRouteGrid.module.scss';
 interface IDeliveryRouteProps {
   from: string;
   fromState: string;
@@ -19,6 +23,9 @@ export const DeliveryRoute: FC<IDeliveryRouteProps> = ({
   distance,
   points
 }) => {
+  const viewStyle = useSelector((state: RootState) => state.viewStyleReducer);
+  const styles = viewStyle.style === EViewStyles.list ? listStyles : gridStyles;
+
   const getPoints = (): string => {
     if (!points) return '';
     let str = 'пункт';

@@ -6,7 +6,7 @@ import listImg from '../../images/list.png';
 import gridImg from '../../images/grid.png';
 
 import styles from './ViewStyleToggler.module.scss';
-import { setStyle, viewStyles } from '../../store/slices/viewStyleSlice';
+import { setStyle, EViewStyles } from '../../store/slices/viewStyleSlice';
 import { RootState } from '../../store/store';
 
 export const ViewStyleToggler: FC = () => {
@@ -14,11 +14,11 @@ export const ViewStyleToggler: FC = () => {
   const dispatch = useDispatch();
 
   const toggleViewStyleInList = () => {
-    dispatch(setStyle({ style: viewStyles.list }));
+    dispatch(setStyle({ style: EViewStyles.list }));
   };
 
   const toggleViewStyleInGrid = () => {
-    dispatch(setStyle({ style: viewStyles.grid }));
+    dispatch(setStyle({ style: EViewStyles.grid }));
   };
 
   return (
@@ -26,7 +26,7 @@ export const ViewStyleToggler: FC = () => {
       <button
         type="button"
         className={classNames(styles.listToggle__btn, {
-          [styles.listToggle__btn_active]: viewStyle.style === viewStyles.list
+          [styles.listToggle__btn_active]: viewStyle.style === EViewStyles.list
         })}
         onClick={toggleViewStyleInList}
       >
@@ -35,7 +35,7 @@ export const ViewStyleToggler: FC = () => {
       <button
         type="button"
         className={classNames(styles.listToggle__btn, {
-          [styles.listToggle__btn_active]: viewStyle.style === viewStyles.grid
+          [styles.listToggle__btn_active]: viewStyle.style === EViewStyles.grid
         })}
         onClick={toggleViewStyleInGrid}
       >
