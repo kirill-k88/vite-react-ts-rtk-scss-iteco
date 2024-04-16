@@ -10,8 +10,6 @@ export const List: FC = () => {
   const { data, isLoading, isError, isLoadingError, fetchNextPage, hasNextPage, isFetching } =
     useQueryItineraries();
 
-  console.log(data?.pages.length);
-
   return (
     <section className={styles.list}>
       {isLoading && <Preloader />}

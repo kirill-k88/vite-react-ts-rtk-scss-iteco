@@ -7,7 +7,7 @@
 }
 
 .filterForm {
-  width: 100%;
+  width: 1109px;
   height: 269px;
   box-sizing: border-box;
   margin-bottom: 20px;
@@ -35,6 +35,10 @@
     justify-content: space-between;
     align-items: center;
     color: #404140;
+
+    &_btn {
+      margin-top: 8px;
+    }
   }
 
   &__header {
@@ -103,6 +107,12 @@
     border: none;
     background-color: transparent;
     text-decoration: underline;
+    cursor: pointer;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &__submitBtn {

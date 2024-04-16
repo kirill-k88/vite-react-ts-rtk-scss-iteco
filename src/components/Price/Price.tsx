@@ -11,7 +11,7 @@ export const Price: FC<IPriceProps> = ({ price, fuelPrice }) => {
   return (
     <div className={styles.price}>
       <p className={styles.price__price}>{`${price} ₽`}</p>
-      <p className={styles.price__fuelPrice}>{`${fuelPrice} ₽`}</p>
+      <p className={styles.price__fuelPrice}>{`ГСМ: ${fuelPrice} ₽`}</p>
     </div>
   );
 };

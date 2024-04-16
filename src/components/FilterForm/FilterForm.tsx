@@ -1,17 +1,16 @@
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Field, Form, Formik } from 'formik';
+import classNames from 'classnames';
 
-import styles from './FilterForm.module.scss';
 import { filterFormSchema } from './model/filterFormSchema';
 import Arrows from '../../images/Arrows.png';
 import { getError } from './functions/functions';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { setFilter } from '../../store/slices/filterSlice';
+import { setFilter, resetFilter } from '../../store/slices/filterSlice';
 import type { IFilter } from '../../types/types';
+import styles from './FilterForm.module.scss';
 
 export const FilterForm: FC = () => {
-  const filterState = useSelector((state: RootState) => state.filterReducer);
   const dispatch = useDispatch();
   const [fieldDateType, setFieldDateType] = useState('text');
 
@@ -21,7 +20,7 @@ export const FilterForm: FC = () => {
   };
 
   const resetHandle = (reset: () => void, setSubmitting: (isSubmitting: boolean) => void) => {
-    dispatch(setFilter({ filter: { from: '', to: '', loadingDate: '', act: '' } }));
+    dispatch(resetFilter());
     setSubmitting(false);
     reset();
   };
@@ -101,7 +100,11 @@ export const FilterForm: FC = () => {
                 }}
               />
             </div>
-            <div className={styles.filterForm__lineContainer}>
+            <div
+              className={classNames(
+                styles.filterForm__lineContainer,
+                styles.filterForm__lineContainer_btn
+              )}>
               {(errors.to && touched.to) ||
               (errors.from && touched.from) ||
               (errors.act && touched.act) ||

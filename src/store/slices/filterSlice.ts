@@ -20,12 +20,14 @@ export const filterSlice = createSlice({
   initialState,
   reducers: {
     setFilter: (state, action: PayloadAction<IFilterSlice>) => {
-      console.log(action);
       state.filter = action.payload.filter;
+    },
+    resetFilter: state => {
+      state.filter = initialState.filter;
     }
   }
 });
 
-export const { setFilter } = filterSlice.actions;
+export const { setFilter, resetFilter } = filterSlice.actions;
 
 export const filterReducer = filterSlice.reducer;
