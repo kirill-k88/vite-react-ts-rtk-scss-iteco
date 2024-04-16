@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { filterReducer } from './slices/filterSlice';
+import { viewStyleReducer } from './slices/viewStyleSlice';
 
 export const store = configureStore({
   reducer: {
-    filterReducer: filterReducer
+    filterReducer: filterReducer,
+    viewStyleReducer: viewStyleReducer
   }
 });
 
