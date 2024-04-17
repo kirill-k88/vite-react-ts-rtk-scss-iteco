@@ -1,4 +1,4 @@
-# React + TypeScript + Vite
+# vite + react + ts + rtk + scss iteco
 
 Веб-приложение по поиску заказов для перевозок транспортной компании.
 Сайт: https://kirill-k88.github.io/vite-react-ts-rtk-scss-iteco/
