@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 
 import styles from './Itinerary.module.scss';
-import type { IItinerary } from '../../mock/mockData';
+import type { IItinerary } from '../../utils/mock/mockData';
 import { DeliveryRoute } from '../DeliveryRoute/DeliveryRoute';
 import { CargoInfo } from '../CargoInfo/CargoInfo';
 import { Price } from '../Price/Price';
@@ -28,7 +28,10 @@ export const Itinerary: FC<ItineraryProps> = ({ itenirary }) => {
         act={itenirary.act}
         loadingDate={itenirary.loadingDate}
       />
-      <Price price={itenirary.price} fuelPrice={itenirary.fuelPrice} />
+      <Price
+        price={itenirary.price}
+        fuelPrice={itenirary.fuelPrice}
+      />
     </div>
   );
 };

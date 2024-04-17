@@ -1,9 +1,11 @@
 .listToggle {
+  box-sizing: border-box;
   width: 1109px;
+  padding: 0 10px;
   display: flex;
   gap: 10px;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
 
   &__btn {
     border: none;
@@ -26,5 +28,11 @@
     height: 25px;
     border-radius: 3px;
     object-fit: contain;
+  }
+
+  &__toggleContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
   }
 }

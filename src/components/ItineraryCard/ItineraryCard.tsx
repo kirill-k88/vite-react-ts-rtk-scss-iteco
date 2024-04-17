@@ -1,8 +1,9 @@
 import { type FC } from 'react';
 
 import { DeliveryRoute } from '../DeliveryRoute/DeliveryRoute';
-import { IItinerary } from '../../mock/mockData';
+import type { IItinerary } from '../../utils/mock/mockData';
 import { CargoInfoGrid } from '../CargoInfoGrid/CargoInfoGrid';
+import { Price } from '../Price/Price';
 
 import styles from './ItineraryCard.module.scss';
 interface ItineraryCardProps {
@@ -26,6 +27,18 @@ export const ItineraryCard: FC<ItineraryCardProps> = ({ itenirary }) => {
         volume={itenirary.volume}
         loadingDate={itenirary.loadingDate}
       />
+      <div className={styles.itineraryCard__priceContainer}>
+        <Price
+          price={itenirary.price}
+          fuelPrice={itenirary.fuelPrice}
+        />
+        <button
+          type="submit"
+          className={styles.itineraryCard__btn}>
+          ОТКЛИКНУТЬСЯ
+        </button>
+      </div>
+      <p className={styles.itineraryCard__namber}>{`№${itenirary.act.toUpperCase()}`}</p>
     </div>
   );
 };

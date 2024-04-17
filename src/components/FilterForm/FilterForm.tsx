@@ -4,13 +4,17 @@ import { Field, Form, Formik } from 'formik';
 import classNames from 'classnames';
 
 import { filterFormSchema } from './model/filterFormSchema';
-import Arrows from '../../images/Arrows.png';
+import Arrows from '../../utils/images/Arrows.png';
 import { getError } from './functions/functions';
 import { setFilter, resetFilter } from '../../store/slices/filterSlice';
-import type { IFilter } from '../../types/types';
+import type { IFilter } from '../../utils/types/types';
 import styles from './FilterForm.module.scss';
 
-export const FilterForm: FC = () => {
+interface IFilterFormProps {
+  filterShow: boolean;
+}
+
+export const FilterForm: FC<IFilterFormProps> = ({ filterShow }) => {
   const dispatch = useDispatch();
   const [fieldDateType, setFieldDateType] = useState('text');
 
@@ -25,8 +29,22 @@ export const FilterForm: FC = () => {
     reset();
   };
 
+  const onArrowsHandle = (
+    values: IFilter,
+    setFieldValue: (field: string, value: unknown) => void,
+    setFieldTouched: (field: string, value: boolean) => void
+  ) => {
+    const from = values.from;
+    const to = values.to;
+
+    setFieldValue('from', to);
+    setFieldTouched('from', false);
+    setFieldValue('to', from);
+    setFieldTouched('to', false);
+  };
+
   return (
-    <section className={styles.filterForm}>
+    <section className={classNames(styles.filterForm, { [styles.filterForm_active]: filterShow })}>
       <Formik<IFilter>
         initialValues={{
           from: '',
@@ -75,15 +93,7 @@ export const FilterForm: FC = () => {
                 <img
                   src={Arrows}
                   className={styles.filterForm__arrows}
-                  onClick={() => {
-                    const from = values.from;
-                    const to = values.to;
-
-                    setFieldValue('from', to);
-                    setFieldTouched('from', false);
-                    setFieldValue('to', from);
-                    setFieldTouched('to', false);
-                  }}
+                  onClick={() => onArrowsHandle(values, setFieldValue, setFieldTouched)}
                 />
               </div>
 

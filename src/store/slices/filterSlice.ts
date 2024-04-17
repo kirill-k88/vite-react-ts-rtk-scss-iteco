@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { IFilter } from '../../types/types';
 
+import type { IFilter } from '../../utils/types/types';
 export interface IFilterSlice {
   filter: IFilter;
 }

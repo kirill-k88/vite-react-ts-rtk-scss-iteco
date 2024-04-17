@@ -1,31 +1,46 @@
-import { type FC } from 'react';
+import { useMemo, type FC } from 'react';
 import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
+import classNames from 'classnames';
 
 import styles from './List.module.scss';
 import { Itinerary } from '../Itinerary/Itinerary';
-import { useQueryItineraries } from '../../hooks/useQueryItineraries';
+import { useQueryItineraries } from '../../utils/hooks/useQueryItineraries';
 import { Preloader } from '../Preloader/Preloader';
 import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
 import { EViewStyles } from '../../store/slices/viewStyleSlice';
 import { ItineraryCard } from '../ItineraryCard/ItineraryCard';
-import classNames from 'classnames';
+import { FETCH_SERVER_ERROR } from '../../utils/constants/constants';
 
-export const List: FC = () => {
+interface IListProps {
+  filterShow: boolean;
+}
+
+export const List: FC<IListProps> = ({ filterShow }) => {
   const viewStyle = useSelector((state: RootState) => state.viewStyleReducer);
   const { data, isLoading, isError, isLoadingError, fetchNextPage, hasNextPage, isFetching } =
     useQueryItineraries();
 
   return (
-    <section className={styles.list}>
+    <section className={classNames(styles.list, { [styles.list_wholeScreen]: !filterShow })}>
       {isLoading && <Preloader />}
       {(isError || isLoadingError) && (
-        <p className={styles.list__preloader}>Ошибка при загрузке данных с сервера</p>
+        <p className={styles.list__preloader}>{FETCH_SERVER_ERROR}</p>
       )}
       {viewStyle.style === EViewStyles.list ? (
         <Virtuoso
+          useWindowScroll
           data={data?.pages.flatMap(page => page?.data ?? []) ?? []}
-          itemContent={(_, item) => <Itinerary key={item?.id} itenirary={item} />}
+          components={{
+            Footer: () =>
+              isFetching && !isLoading && <p className={styles.list__preloader}>Загрузка ...</p>
+          }}
+          itemContent={(_, item) => (
+            <Itinerary
+              key={item?.id}
+              itenirary={item}
+            />
+          )}
           endReached={() => {
             if (hasNextPage) {
               fetchNextPage();
@@ -35,8 +50,18 @@ export const List: FC = () => {
         />
       ) : (
         <VirtuosoGrid
+          useWindowScroll
           data={data?.pages.flatMap(page => page?.data ?? []) ?? []}
-          itemContent={(_, item) => <ItineraryCard key={item?.id} itenirary={item} />}
+          components={{
+            Footer: () =>
+              isFetching && !isLoading && <p className={styles.list__preloader}>Загрузка ...</p>
+          }}
+          itemContent={(_, item) => (
+            <ItineraryCard
+              key={item?.id}
+              itenirary={item}
+            />
+          )}
           endReached={() => {
             if (hasNextPage) {
               fetchNextPage();
@@ -45,7 +70,6 @@ export const List: FC = () => {
           listClassName={classNames(styles.list__infinityScroll, styles.list__infinityScroll_grid)}
         />
       )}
-      {isFetching && !isLoading && <p className={styles.list__preloader}>Загрузка ...</p>}
     </section>
   );
 };

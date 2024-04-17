@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker/locale/ru';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { IFilter } from '../types/types';
 export interface IItinerary {
@@ -36,7 +36,9 @@ const getItinerary = (
   const date = faker.date.past();
   return {
     id: faker.string.uuid(),
-    loadingDate: loadingDate || format(date, 'd MMMM yyyy HH:mm', { locale: ru }),
+    loadingDate:
+      (loadingDate && format(parseISO(loadingDate), 'd MMMM yyyy HH:mm', { locale: ru })) ||
+      format(date, 'd MMMM yyyy HH:mm', { locale: ru }),
     from: from || faker.location.city(),
     fromState: districtReplace(faker.location.state()),
     to: to || faker.location.city(),
@@ -76,21 +78,3 @@ export const fetchMockData = async (page: number, filter: IFilter) => {
     throw new Error(`Ошибка при запросе: ${err}`);
   }
 };
-
-/* export const fetchFilteredMockData = async (
-  page: number,
-  from: string | null = null,
-  to: string | null = null,
-  loadingDate: string | null = null,
-  act: string | null = null
-) => {
-  try {
-    const data = await new Promise<IItinerary[]>((resolve, reject) => {
-      setTimeout(() => resolve(getMockData(50, from, to, loadingDate, act)), 2000);
-    });
-    return { data, nextPage: page + Math.floor(Math.random() * 2) };
-  } catch (err) {
-    console.log(`Ошибка при запросе: ${err}`);
-    throw new Error(`Ошибка при запросе: ${err}`);
-  }
-}; */

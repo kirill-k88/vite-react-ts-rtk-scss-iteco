@@ -8,12 +8,20 @@
 
 .filterForm {
   width: 1109px;
-  height: 269px;
+  height: 0;
   box-sizing: border-box;
   margin-bottom: 20px;
-  padding: 32px;
+  padding: 0;
   border-radius: 16px;
   background-color: #fff;
+  opacity: 0;
+  transition: height 0.5s, opacity 0.5s;
+
+  &_active {
+    height: 269px;
+    padding: 32px;
+    opacity: 1;
+  }
 
   &__error {
     @include font();
@@ -118,7 +126,6 @@
   &__submitBtn {
     width: 269px;
     height: 56px;
-    padding: 20px 104px;
     border: none;
     border-radius: 8px;
     background-color: #ff9a19;

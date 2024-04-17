@@ -1,5 +1,6 @@
 .itineraryCard {
   box-sizing: border-box;
+  position: relative;
   width: 547px;
   min-height: 328px;
   background-color: #fff;
@@ -9,4 +10,47 @@
   display: flex;
   flex-direction: column;
   color: #404140;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  &__priceContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  &__btn {
+    width: 178px;
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff9a19;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+
+  &__namber {
+    position: absolute;
+    right: 32px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21px;
+    color: #818281;
+  }
 }
