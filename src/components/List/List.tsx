@@ -1,4 +1,4 @@
-import { useMemo, type FC } from 'react';
+import { type FC } from 'react';
 import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
 import classNames from 'classnames';
 

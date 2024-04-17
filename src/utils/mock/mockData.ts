@@ -66,7 +66,7 @@ const getMockData = (count: number, filter: IFilter): IItinerary[] => {
 
 export const fetchMockData = async (page: number, filter: IFilter) => {
   try {
-    const data = await new Promise<IItinerary[]>((resolve, reject) => {
+    const data = await new Promise<IItinerary[]>(resolve => {
       setTimeout(() => resolve(getMockData(filter.act ? 1 : 50, filter)), 2000);
       /*  setTimeout(() => {
         reject('Ошибка сервера');
